@@ -1,0 +1,41 @@
+//======================================================================================
+// Bottom
+.bottom-page {
+	display: flex;
+	flex-direction: column;
+}
+//====================================================================================================
+.footer {
+	// .footer__container
+	&__container {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		gap: rem(15);
+		@include adaptiveValue("padding-top", 88, 20);
+		@include adaptiveValue("padding-bottom", 88, 20, 0, 1200, 551);
+		@media (max-width: em(550)) {
+			padding-bottom: rem(70);
+		}
+	}
+	// .footer__social
+	&__social {
+		.social__link {
+			color: $greyColor;
+			transition: color 0.3s ease 0s;
+			@media (any-hover: hover) {
+				&:hover {
+					color: $purpleColor;
+				}
+			}
+		}
+	}
+	// .footer__copy
+	&__copy {
+		font-size: rem(14);
+		line-height: math.div(17, 14);
+		color: $greyColor;
+	}
+}
+//====================================================================================================

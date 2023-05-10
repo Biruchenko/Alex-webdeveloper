@@ -1,0 +1,1122 @@
+@use "sass:math";
+
+// Підключення міксинів ===========================================================================================================================================================================================================================================================================
+@import "base/mixins";
+
+// Підключення шрифтів ===========================================================================================================================================================================================================================================================================
+//&display=swap - додати при підключенні через плагін
+@import url("https://fonts.googleapis.com/css?family=Inter:regular,500&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Plus+Jakarta+Sans:500,700&display=swap");
+// Підключити, якщо є локальні файли шрифтів
+@import "fonts/fonts";
+
+// Підключення іконкових шрифтів ==============================================================================================================================================================================================================================================================================
+// Підключити, якщо є файл іконкового шрифту
+@import "fonts/icons";
+
+// ============================================================================================================================================================================================================================================================================================================================================================================================
+// Налаштування шаблону ============================================================================================================================================================================================================================================================================================================================================================================================
+// ============================================================================================================================================================================================================================================================================================================================================================================================
+
+// За замовчуванням шрифт ==============================================================================================================================================================================================================================================================================
+$fontFamily: "Inter";
+$fontSize: rem(16); // де 14(px) - розмір шрифту за замовчуванням з макету
+
+// Основні кольори
+$mainColor: #232e35; // Колір шрифту за замовчуванням
+$greyColor: #656d72;
+$purpleColor: #7e74f1;
+
+// Палітра кольорів
+// @import "base/colors-palette";
+
+// Налаштування адаптивної сітки ===============================================================================================================================================================================================================================================================================================
+
+// Мінімальна ширина сторінки
+$minWidth: 320;
+// Ширина полотна (макету)
+$maxWidth: 1440;
+// Ширина обмежуючого контейнера (0 = немає обмеження)
+$maxWidthContainer: 1200;
+// Загальний відступ у контейнера
+// (30 = по 15px ліворуч і праворуч, 0 = немає відступу)
+$containerPadding: 30;
+
+// Ширина спрацьовування першого брейкпоінту
+$containerWidth: $maxWidthContainer + $containerPadding;
+
+// Брейк-поїнти
+$pc: em($containerWidth); // ПК, ноутбуки, деякі планшети у горизонтальному положенні
+$tablet: em(991.98); // Планшети, деякі телефони в горизонтальному положенні
+$mobile: em(767.98); // Телефони L
+$mobileSmall: em(479.98); // Телефони S
+
+// Тип адаптива:
+// 1 = чуйність (у контейнера немає брейкпоінтів),
+// 2 = по брейк-поїнт (контейнер змінює свою ширину по брейк-поїнт)
+$responsiveType: 1;
+
+// ============================================================================================================================================================================================================================================================================================================================================================================================
+// ============================================================================================================================================================================================================================================================================================================================================================================================
+
+// Обнулення ============================================================================================================================================================================================== =============================================================================================== ===============================================================================================
+@import "base/null";
+
+// Стилі тега BODY ============================================================================================================================================================================================================================================================================================================================================================================================
+body {
+	// Скролл заблоковано
+	.lock & {
+		overflow: hidden;
+		touch-action: none;
+		overscroll-behavior: none;
+	}
+	// Сайт завантажений
+	.loaded & {
+	}
+}
+// Оболонка wrapper ============================================================================================================================================================================================================================================================================================================================================================================================================================================
+.wrapper {
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	@supports (overflow: clip) {
+		overflow: clip;
+	}
+	// Притискаємо footer
+	> main {
+		flex: 1 1 auto;
+	}
+	// Фікс для слайдерів
+	> * {
+		min-width: 0;
+	}
+}
+// Обмежуючий контейнер ======================================================================================================================================================================================================================
+/*
+(i) Стилі будуть застосовуватись до
+всіх класів, що містять *__container
+Наприклад header__container, main__container і т.п.
+Сніппет (HTML): cnt
+*/
+@if ($responsiveType==1) {
+	// Чуйна
+	[class*="__container"] {
+		min-height: 100%;
+		@if ($maxWidthContainer>0) {
+			max-width: rem($containerWidth);
+			margin: 0 auto;
+		}
+		@if ($containerPadding>0) {
+			@if ($maxWidthContainer>0) {
+				padding: 0 rem(math.div($containerPadding, 2));
+			} @else {
+				@include adaptiveValue("padding-left", math.div($containerPadding, 2), 15);
+				@include adaptiveValue("padding-right", math.div($containerPadding, 2), 15);
+			}
+		}
+	}
+} @else {
+	// Брейк-поїнтами
+	[class*="__container"] {
+		margin: 0 auto;
+		@if ($maxWidthContainer>0) {
+			max-width: rem($containerWidth);
+		} @else {
+			@if ($containerPadding>0) {
+				padding: 0 rem(math.div($containerPadding, 2));
+			}
+		}
+		@media (max-width: $pc) {
+			max-width: rem(970);
+		}
+		@media (max-width: $tablet) {
+			max-width: rem(750);
+		}
+		@media (max-width: $mobile) {
+			max-width: none;
+			@if ($containerPadding>0 and $maxWidthContainer>0) {
+				padding: 0 rem(math.div($containerPadding, 2));
+			}
+		}
+	}
+}
+
+// Підключення базових стилів, шаблонів (заготівель) та допоміжних класів
+// Для підключення/вимкнення конкретних стилів дивись base.scss
+@import "base";
+
+// Підключення стилів загальних елементів проекту
+@import "common";
+
+// Підключення стилів окремих блоків
+@import "header";
+@import "footer";
+
+// Підключення стилів окремих сторінок
+@import "home";
+//======================================================================================
+// Pages
+.page {
+	// .page__main
+	&__main {
+	}
+	// .page__services
+	&__services {
+	}
+	// .page__portfolio
+	&__portfolio {
+	}
+	// .page__career
+	&__career {
+	}
+	// .page__blog
+	&__blog {
+	}
+	// .page__testimonials
+	&__testimonials {
+	}
+	// .page__skills
+	&__skills {
+	}
+	// .page__contacts
+	&__contacts {
+	}
+}
+//======================================================================================
+// Main-section
+.main-section {
+	// .main-section__container
+	&__container {
+		display: grid;
+		align-items: center;
+		grid-template-columns: repeat(2, 1fr);
+		gap: rem(20);
+		padding-top: rem(80);
+		padding-bottom: rem(30);
+		@media (max-width: $mobile) {
+			grid-template-columns: auto;
+			row-gap: rem(30);
+		}
+		@media (max-width: em(550)) {
+			padding-bottom: rem(50);
+		}
+	}
+	// .main-section__content
+	&__content {
+	}
+	// .main-section__title
+	&__title {
+		&:not(:last-child) {
+			@include adaptiveValue("margin-bottom", 32, 16);
+		}
+	}
+	// .main-section__text
+	&__text {
+		&:not(:last-child) {
+			@include adaptiveValue("margin-bottom", 40, 20);
+		}
+	}
+	// .main-section__social
+	&__social {
+	}
+	// .main-section__decor
+	&__decor {
+	}
+}
+.decor-main-section {
+	// margin: 0 0 0 auto;
+	max-width: rem(336);
+	margin: 0 rem(25);
+	justify-self: center;
+	@media (min-width: $mobile) {
+		justify-self: end;
+		width: 100%;
+	}
+	@media (max-width: $mobile) {
+		max-width: none;
+		@include adaptiveValue("width", 336, 246);
+	}
+	// .decor-main-section__box
+	&__box {
+		position: relative;
+		padding-bottom: percent(400, 336);
+		&::before,
+		&::after {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			border-radius: rem(16);
+		}
+		&::before {
+			z-index: 1;
+			background-color: #7e74f1;
+			transform: rotate(-9.55deg);
+		}
+		&::after {
+			z-index: 2;
+			background: #eae6fe url("@img/main/lines.svg") top right / 58% no-repeat;
+		}
+	}
+	// .decor-main-section__image
+	&__image {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		border-radius: rem(16);
+		overflow: hidden;
+	}
+	// .decor-main-section__picture
+	&__picture {
+		z-index: 3;
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		max-width: 100%;
+	}
+}
+//======================================================================================
+// Services
+.services {
+	background-color: #fbfbfb;
+	// .services__container
+	&__container {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		padding-top: rem(80);
+		padding-bottom: rem(30);
+		@media (max-width: em(550)) {
+			padding-bottom: rem(60);
+		}
+	}
+	// .services__title
+	&__title {
+		&:not(:last-child) {
+			@include adaptiveValue("margin-bottom", 100, 30);
+		}
+	}
+	// .services__items
+	&__items {
+		width: 100%;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(rem(280), 1fr));
+		@include adaptiveValue("gap", 56, 20);
+	}
+	// .services__item
+	&__item {
+	}
+}
+.item-service {
+	border-radius: rem(8);
+	background-color: #fff;
+	text-align: center;
+	@include adaptiveValue("padding", 53, 15);
+	display: grid;
+	justify-items: center;
+	// .item-service__icon
+	&__icon {
+		width: rem(56);
+		height: rem(56);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background-color: #f5f3fe;
+		border-radius: rem(16);
+		&:not(:last-child) {
+			margin-bottom: rem(24);
+		}
+	}
+	// .item-service__title
+	&__title {
+		font-weight: 500;
+		line-height: math.div(20, 16);
+		&:not(:last-child) {
+			margin-bottom: rem(16);
+		}
+	}
+	// .item-service__text
+	&__text {
+		font-size: rem(14);
+		line-height: math.div(24, 14);
+	}
+}
+//======================================================================================
+// Portfolio
+.portfolio {
+	// .portfolio__container
+	&__container {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		padding-top: rem(80);
+		padding-bottom: rem(30);
+	}
+	// .portfolio__header
+	&__header {
+		display: flex;
+		gap: rem(20);
+		align-items: center;
+		justify-content: space-between;
+		@include adaptiveValue("margin-bottom", 144, 30);
+		@media (max-width: em(600)) {
+			align-items: stretch;
+			flex-direction: column;
+		}
+	}
+	// .portfolio__title
+	&__title {
+	}
+	// .portfolio__controls
+	&__controls {
+		display: flex;
+		align-items: center;
+		gap: rem(16);
+		@media (max-width: em(600)) {
+			justify-content: center;
+		}
+	}
+	// .portfolio__arrow
+	&__arrow {
+		width: rem(40);
+		height: rem(40);
+		background-color: #eae6fe;
+		border-radius: rem(16);
+		color: #7e74f1;
+		font-size: rem(12);
+		transition: all 0.3s ease 0s;
+		@media (any-hover: hover) {
+			&:hover {
+				background-color: #c3b9f1;
+			}
+		}
+		&.swiper-button-disabled {
+			opacity: 0.5;
+			cursor: default;
+			background-color: #eae6fe;
+			color: #7e74f1;
+		}
+		// .portfolio__arrow_left
+		&_left {
+			transform: rotate(-180deg);
+		}
+		// .portfolio__arrow_right
+		&_right {
+		}
+	}
+	// .portfolio__slider
+	&__slider {
+		@media (max-width: em(650)) {
+			margin-right: rem(-15);
+			padding-right: rem(15);
+		}
+	}
+	// .portfolio__wrapper
+	&__wrapper {
+	}
+	// .portfolio__slide
+	&__slide {
+	}
+}
+.item-portfolio {
+	border: rem(1) solid #f5f5f5;
+	border-radius: rem(8);
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	min-height: 100%;
+	// .item-portfolio__image-ibg
+	&__image-ibg {
+		overflow: hidden;
+		padding-bottom: percent(295, 361);
+		opacity: 0.5;
+		transition: opacity 0.8s ease 0s;
+		img {
+			object-position: top;
+			transition: transform 0.8s ease 0s;
+		}
+		@media (any-hover: hover) {
+			&:hover {
+				opacity: 1;
+				img {
+					transform: scale(1.05);
+				}
+			}
+		}
+		@media (any-hover: none) {
+			opacity: 1;
+		}
+	}
+	// .item-portfolio__body
+	&__body {
+		padding: rem(24);
+		display: flex;
+		flex-direction: column;
+		gap: rem(16);
+		flex: 1 1 auto;
+	}
+	// .item-portfolio__title
+	&__title {
+		flex: 1 1 100%;
+	}
+	// .item-portfolio__link-title
+	&__link-title {
+		font-family: "Plus Jakarta Sans";
+		font-weight: 500;
+		line-height: math.div(20, 16);
+		color: $mainColor;
+		transition: color 0.3s ease 0s;
+		@media (any-hover: hover) {
+			&:hover {
+				color: $purpleColor;
+			}
+		}
+	}
+	// .item-portfolio__footer
+	&__footer {
+		display: flex;
+		align-items: center;
+		gap: rem(16);
+	}
+	// .item-portfolio__category
+	&__category {
+	}
+	// .item-portfolio__link
+	&__link {
+		font-size: rem(9.5);
+		color: $greyColor;
+		transition: color 0.3s ease 0s;
+		@media (any-hover: hover) {
+			&:hover {
+				color: $purpleColor;
+			}
+		}
+	}
+}
+//======================================================================================
+// Career path
+.career {
+	background-color: #fbfbfb;
+	// .career__container
+	&__container {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		padding-top: rem(80);
+		padding-bottom: rem(30);
+		@media (max-width: em(550)) {
+			padding-bottom: rem(60);
+		}
+	}
+	// .career__body
+	&__body {
+		display: grid;
+		align-items: start;
+		align-content: center;
+		grid-template-columns: auto;
+		grid-template-rows: auto;
+		@include adaptiveValue("column-gap", 144, 20);
+		@include adaptiveValue("row-gap", 80, 20);
+		@media (min-width: $mobile) {
+			grid-template-columns: auto 1fr;
+			grid-template-rows: auto 1fr;
+			grid-auto-flow: column;
+		}
+	}
+	// .career__title
+	&__title {
+	}
+	// .career__navigation
+	&__navigation {
+		._tab-spoller & {
+			display: none;
+		}
+	}
+	// .career__content
+	&__content {
+		@media (min-width: $mobile) {
+			grid-row: span 2;
+			@include adaptiveValue("padding-top", 32, 15);
+		}
+	}
+}
+.navigation-career {
+	// .navigation-career__title
+	&__title {
+		width: 100%;
+		padding: rem(14) rem(24);
+		line-height: math.div(19, 16);
+		text-align: left;
+		transition: all 0.3s ease 0s;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		&:not(:last-child) {
+			margin-bottom: rem(9);
+		}
+		&::after {
+			display: none;
+			@extend %ic;
+			content: "\e903";
+			font-size: rem(10);
+		}
+		._tab-spoller & {
+			border: rem(1) solid rgba(101, 109, 114, 0.2);
+			&::after {
+				display: block;
+				transform: rotate(90deg);
+			}
+		}
+		&._tab-active {
+			background-color: #fff;
+			color: $purpleColor;
+			&::after {
+				display: block;
+				._tab-spoller & {
+					transform: rotate(-90deg);
+				}
+			}
+		}
+	}
+}
+.content-career {
+	// .content-career__body
+	&__body {
+		._tab-spoller & {
+			padding: rem(15) rem(0) rem(15) rem(0);
+		}
+	}
+	// .content-career__header
+	&__header {
+		@include adaptiveValue("padding-bottom", 32, 20);
+		border-bottom: rem(1) solid #f1f1f1;
+	}
+	// .content-career__title
+	&__title {
+		font-family: "Plus Jakarta Sans";
+		font-weight: 500;
+		font-size: rem(18);
+		line-height: math.div(23, 18);
+		&:not(:last-child) {
+			margin-bottom: rem(8);
+		}
+	}
+	// .content-career__link-title
+	&__link-title {
+		// text-decoration: underline;
+		position: relative;
+		transition: all 0.3s ease 0s;
+		&::after {
+			content: "";
+			position: absolute;
+			width: 100%;
+			height: rem(1);
+			background-color: $mainColor;
+			left: 0;
+			bottom: 0;
+		}
+		@media (any-hover: hover) {
+			&:hover {
+				color: $purpleColor;
+			}
+			&:hover::after {
+				background-color: $purpleColor;
+			}
+		}
+	}
+	// .content-career__location
+	&__location {
+		font-size: rem(14);
+		line-height: math.div(17, 14);
+		color: $greyColor;
+		&:not(:last-child) {
+			margin-bottom: rem(16);
+		}
+	}
+	// .content-career__time
+	&__time {
+		font-size: rem(14);
+		line-height: math.div(24, 14);
+		color: $greyColor;
+		&:not(:last-child) {
+			margin-bottom: rem(16);
+		}
+	}
+	// .content-career__categories
+	&__categories {
+		display: flex;
+		gap: rem(16);
+	}
+	// .content-career__main
+	&__main {
+		@include adaptiveValue("padding-top", 32, 20);
+	}
+	// .content-career__list
+	&__list {
+	}
+}
+.list-content-career {
+	// .list-content-career__item
+	&__item {
+		position: relative;
+		color: $greyColor;
+		line-height: math.div(19, 16);
+		padding-left: rem(28);
+		&::before {
+			content: "";
+			position: absolute;
+			background-color: #d9d9d9;
+			top: em(10, 16);
+			left: 0;
+			width: rem(10);
+			height: rem(2);
+		}
+		&:not(:last-child) {
+			margin-bottom: rem(16);
+		}
+	}
+}
+//======================================================================================
+// Blog
+.blog {
+	// .blog__container
+	&__container {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		padding-top: rem(80);
+		padding-bottom: rem(30);
+		@media (max-width: em(550)) {
+			padding-bottom: rem(60);
+		}
+	}
+	// .blog__title
+	&__title {
+		@include adaptiveValue("margin-bottom", 144, 30);
+	}
+	// .blog__items
+	&__items {
+		align-self: stretch;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(rem(280), 1fr));
+		@include adaptiveValue("gap", 40, 20);
+	}
+	// .blog__item
+	&__item {
+	}
+}
+.item-blog {
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;
+	border-radius: rem(8);
+	overflow: hidden;
+	border: rem(1) solid #f1f1f1;
+	// .item-blog__image-ibg
+	&__image-ibg {
+		padding-bottom: percent(243, 361);
+		overflow: hidden;
+		img {
+			transition: transform 0.8s ease 0s;
+		}
+		@media (any-hover: hover) {
+			&:hover {
+				img {
+					transform: scale(1.05);
+				}
+			}
+		}
+	}
+	// .item-blog__body
+	&__body {
+		padding: rem(16) rem(16) rem(24) rem(16);
+		display: grid;
+		gap: rem(16);
+	}
+	// .item-blog__title
+	&__title {
+	}
+	// .item-blog__link-title
+	&__link-title {
+		font-family: "Plus Jakarta Sans";
+		font-weight: 500;
+		line-height: math.div(24, 16);
+		transition: color 0.3s ease 0s;
+		@media (any-hover: hover) {
+			&:hover {
+				color: $purpleColor;
+			}
+		}
+	}
+	// .item-blog__date
+	&__date {
+		justify-self: start;
+	}
+	// .item-blog__text
+	&__text {
+	}
+	// .item-blog__link
+	&__link {
+		margin-top: rem(24);
+		justify-self: center;
+		font-weight: 500;
+		font-size: rem(14);
+		line-height: math.div(17, 14);
+		color: $greyColor;
+		transition: color 0.3s ease 0s;
+		@media (any-hover: hover) {
+			&:hover {
+				color: $purpleColor;
+			}
+		}
+	}
+}
+//======================================================================================
+// Testimonials
+.testimonials {
+	background-color: #fbfbfb;
+	// .testimonials__container
+	&__container {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		padding-top: rem(80);
+		padding-bottom: rem(30);
+		@media (max-width: em(550)) {
+			padding-bottom: rem(60);
+		}
+	}
+	// .testimonials__title
+	&__title {
+		@include adaptiveValue("margin-bottom", 132, 80);
+	}
+	// .testimonials__items
+	&__items {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(rem(280), 1fr));
+		@include adaptiveValue("column-gap", 40, 20);
+		row-gap: rem(80);
+	}
+	// .testimonials__item
+	&__item {
+	}
+}
+.item-testimonials {
+	background-color: #fff;
+	border-radius: rem(8);
+	display: flex;
+	flex-direction: column;
+	padding-bottom: rem(24);
+	@include adaptiveValue("padding-left", 38, 10);
+	@include adaptiveValue("padding-right", 38, 10);
+	// .item-testimonials__avatar-ibg
+	&__avatar-ibg {
+		align-self: center;
+		border-radius: 50%;
+		overflow: hidden;
+		width: rem(96);
+		height: rem(96);
+		margin-top: rem(-48);
+		&:not(:last-child) {
+			margin-bottom: rem(32);
+		}
+	}
+	// .item-testimonials__text
+	&__text {
+		flex: 1 1 auto;
+		line-height: math.div(28, 16);
+		&:not(:last-child) {
+			@include adaptiveValue("margin-bottom", 48, 20);
+		}
+	}
+	// .item-testimonials__name
+	&__name {
+		font-family: "Plus Jakarta Sans";
+		font-weight: 500;
+		font-size: rem(14);
+		line-height: math.div(18, 14);
+		&:not(:last-child) {
+			margin-bottom: rem(9);
+		}
+	}
+	// .item-testimonials__profession
+	&__profession {
+		align-self: flex-start;
+	}
+}
+//======================================================================================
+// Skills
+.skills {
+	// .skills__container
+	&__container {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		padding-top: rem(80);
+		padding-bottom: rem(30);
+		@media (max-width: em(550)) {
+			padding-bottom: rem(80);
+		}
+	}
+	// .skills__title
+	&__title {
+		@include adaptiveValue("margin-bottom", 112, 30);
+	}
+	// .skills__body
+	&__body {
+		display: grid;
+		gap: rem(40);
+		@media (min-width: em(850)) {
+			grid-template-columns: 1fr percent(658, 1200);
+		}
+	}
+	// .skills__timeline
+	&__timeline {
+	}
+	// .skills__content
+	&__content {
+	}
+}
+.timeline {
+	display: grid;
+	gap: rem(64);
+	position: relative;
+	&::before {
+		content: "";
+		position: absolute;
+		top: em(2.5, 16);
+		left: rem(12);
+		height: 100%;
+		width: rem(1);
+		background-color: #f1f1f1;
+	}
+	// .timeline__item
+	&__item {
+		position: relative;
+		padding-left: rem(40);
+		&::before {
+			content: "";
+			position: absolute;
+			z-index: 3;
+			width: rem(16);
+			height: rem(16);
+			border-radius: 50%;
+			background-color: #f1f1f1;
+			top: em(2.5, 16);
+			left: rem(4);
+		}
+		&:last-child {
+			&::after {
+				content: "";
+				position: absolute;
+				z-index: 2;
+				width: rem(1);
+				height: 100%;
+				left: rem(12);
+				bottom: 0;
+				background-color: #fff;
+			}
+		}
+	}
+	// .timeline__title
+	&__title {
+		font-family: "Plus Jakarta Sans";
+		font-weight: 500;
+		line-height: math.div(20, 16);
+		&:not(:last-child) {
+			margin-bottom: rem(10);
+		}
+	}
+	// .timeline__text
+	&__text {
+		font-size: rem(14);
+		line-height: math.div(17, 14);
+		color: $greyColor;
+		&:not(:last-child) {
+			// @include adaptiveValue("margin-bottom", 24, 15);
+			margin-bottom: rem(24);
+		}
+	}
+	// .timeline__date
+	&__date {
+		font-size: rem(14);
+		line-height: math.div(17, 14);
+	}
+}
+.content-skills {
+	// .content-skills__text
+	&__text {
+		&:not(:last-child) {
+			@include adaptiveValue("margin-bottom", 64, 20);
+		}
+	}
+	// .content-skills__items
+	&__items {
+		display: grid;
+		@include adaptiveValue("gap", 40, 20);
+	}
+	// .content-skills__item
+	&__item {
+	}
+	// .content-skills__label
+	&__label {
+		font-weight: 500;
+		font-size: rem(14);
+		line-height: math.div(17, 14);
+		&:not(:last-child) {
+			margin-bottom: rem(16);
+		}
+	}
+	// .content-skills__line
+	&__line {
+		background-color: #f5f3fe;
+		height: rem(8);
+		border-radius: rem(2);
+		position: relative;
+		span {
+			position: absolute;
+			height: 100%;
+			top: 0;
+			left: 0;
+			background-color: $purpleColor;
+			border-radius: rem(2);
+		}
+	}
+}
+//======================================================================================
+// Contacts
+.contacts {
+	flex: 1 1 auto;
+	background-color: #fbfbfb;
+	// .contacts__container
+	&__container {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		padding-top: rem(80);
+		padding-bottom: rem(30);
+	}
+	// .contacts__content
+	&__content {
+		display: flex;
+		align-items: center;
+		@include adaptiveValue("gap", 105, 20);
+		@media (max-width: em(850)) {
+			flex-direction: column-reverse;
+			align-items: stretch;
+		}
+	}
+	// .contacts__form
+	&__form {
+		flex: 0 1 50%;
+	}
+	// .contacts__body
+	&__body {
+		flex: 0 1 50%;
+	}
+	// .contacts__list
+	&__list {
+	}
+}
+.form {
+	display: grid;
+	gap: rem(16);
+	// .form__item
+	&__item {
+		&:last-child {
+			padding-top: rem(22);
+		}
+	}
+	// .form__input
+	&__input {
+		width: 100%;
+		height: rem(48);
+		border-radius: rem(8);
+		padding: rem(0) rem(24);
+		background-color: #fff;
+		&::placeholder {
+			color: $greyColor;
+		}
+		&:focus {
+			&::placeholder {
+				color: $mainColor;
+			}
+		}
+	}
+	// .form__button
+	&__button {
+		width: 100%;
+		background-color: $purpleColor;
+		padding: rem(16);
+		color: #fff;
+		border-radius: rem(8);
+		transition: background-color 0.3s ease 0s;
+		@media (any-hover: hover) {
+			&:hover {
+				background-color: #645bca;
+			}
+		}
+	}
+	// form__error
+	&__error {
+		padding: rem(5) rem(24) rem(0) rem(24);
+		color: red;
+		font-size: rem(12);
+	}
+}
+textarea.form__input {
+	height: rem(190);
+	resize: vertical;
+	padding: rem(24);
+}
+
+.list-contacts {
+	display: grid;
+	@include adaptiveValue("gap", 48, 20);
+	// .list-contacts__item
+	&__item {
+		display: flex;
+		align-items: center;
+		gap: rem(24);
+	}
+	// .list-contacts__icon
+	&__icon {
+		flex: 0 0 rem(56);
+		height: rem(56);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background-color: #f5f3fe;
+		border-radius: rem(16);
+	}
+	// .list-contacts__body
+	&__body {
+	}
+	// .list-contacts__title
+	&__title {
+		font-weight: 500;
+		line-height: math.div(19, 16);
+		&:not(:last-child) {
+			margin-bottom: rem(4);
+		}
+	}
+	// .list-contacts__text
+	&__text {
+		font-size: rem(14);
+		line-height: math.div(24, 14);
+		color: $greyColor;
+		transition: color 0.3s ease 0s;
+		@media (any-hover: hover) {
+			&:hover {
+				color: $purpleColor;
+			}
+		}
+	}
+}
